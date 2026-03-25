@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pipeline Dashboard</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#0a0a12; color:#e2e8f0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; padding:20px; max-width:900px; margin:0 auto; }
+
+.header { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
+.header h1 { font-size:22px; font-weight:800; }
+.header .updated { font-size:12px; color:#6b7280; }
+
+.stats { display:flex; gap:12px; margin-bottom:24px; flex-wrap:wrap; }
+.stat { background:#1a1a2e; border-radius:10px; padding:16px; flex:1; min-width:100px; border:1px solid #2a2a3e; }
+.stat-value { font-size:22px; font-weight:800; }
+.stat-label { font-size:10px; color:#6b7280; margin-top:4px; text-transform:uppercase; letter-spacing:0.5px; }
+
+.filters { display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap; }
+.filter-btn { background:#1a1a2e; border:1px solid #2a2a3e; color:#9ca3af; padding:6px 14px; border-radius:6px; font-size:12px; cursor:pointer; transition:all 0.2s; }
+.filter-btn:hover, .filter-btn.active { background:#2a2a3e; color:#e2e8f0; border-color:#4a4a6e; }
+
+.card { background:#1a1a2e; border-radius:12px; margin-bottom:14px; border:1px solid #2a2a3e; overflow:hidden; transition:all 0.2s; cursor:pointer; }
+.card:hover { border-color:#3a3a5e; }
+.card-header { padding:18px 20px; display:flex; justify-content:space-between; align-items:center; }
+.card-left { flex:1; }
+.card-name { font-size:17px; font-weight:700; }
+.card-meta { display:flex; gap:10px; align-items:center; margin-top:6px; flex-wrap:wrap; }
+.stage-badge { padding:2px 10px; border-radius:4px; font-size:11px; font-weight:600; color:#fff; }
+.card-amount { font-size:13px; color:#9ca3af; }
+.card-close { font-size:13px; }
+.close-ok { color:#6b7280; }
+.close-warn { color:#f97316; font-weight:600; }
+.close-danger { color:#ef4444; font-weight:600; }
+
+.card-score { text-align:center; min-width:60px; }
+.card-score .pct { font-size:26px; font-weight:800; }
+.card-score .label { font-size:9px; color:#6b7280; margin-top:2px; }
+
+.card-body { display:none; padding:0 20px 18px; }
+.card.expanded .card-body { display:block; }
+
+.meddpicc { display:flex; justify-content:center; gap:6px; padding:14px 0; margin-bottom:14px; border-top:1px solid #2a2a3e; border-bottom:1px solid #2a2a3e; flex-wrap:wrap; }
+.meddpicc-item { text-align:center; }
+.meddpicc-dot { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:13px; margin:0 auto; }
+.meddpicc-label { font-size:8px; color:#6b7280; margin-top:3px; white-space:nowrap; }
+
+.detail-row { font-size:13px; line-height:1.8; }
+.detail-row .dlabel { color:#6b7280; }
+.detail-row .dvalue { color:#cbd5e1; }
+
+.risk-badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; }
+.risk-high { background:#7f1d1d; color:#fca5a5; }
+.risk-med { background:#713f12; color:#fde047; }
+.risk-low { background:#14532d; color:#86efac; }
+
+.expand-icon { font-size:14px; color:#6b7280; margin-left:12px; transition:transform 0.2s; }
+.card.expanded .expand-icon { transform:rotate(180deg); }
+
+.empty { text-align:center; padding:40px; color:#6b7280; }
+
+@media(max-width:600px) {
+  body { padding:12px; }
+  .stat { min-width:80px; padding:12px; }
+  .stat-value { font-size:18px; }
+  .card-header { padding:14px; }
+  .card-name { font-size:15px; }
+  .meddpicc-dot { width:26px; height:26px; font-size:11px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>🎯 Pipeline Dashboard</h1>
+    <div class="updated" id="updated"></div>
+  </div>
+</div>
+
+<div class="stats" id="stats"></div>
+<div class="filters" id="filters"></div>
+<div id="cards"></div>
+
+<script>
+// ===== DATA (replaced by refresh script) =====
+const PIPELINE_DATA = {"updated": "25 Mar 2026 08:03 PM AEST", "deals": []};
+// ===== END DATA =====
+
+const STAGE_COLORS = {
+  "0: AE Qualification": "#6b7280",
+  "0: Prospecting": "#6b7280",
+  "1: Discovery & Scoping": "#3b82f6",
+  "2: Proposal and Quoting": "#8b5cf6",
+  "3: Negotiation": "#22c55e",
+  "4: Closed Pending": "#14b8a6"
+};
+
+const MEDDPICC_LABELS = [
+  ["M", "Metrics"], ["E", "Econ Buyer"], ["D1", "Dec Criteria"],
+  ["D2", "Dec Process"], ["P", "Paper"], ["I", "Pain"],
+  ["C", "Champion"], ["Co", "Competition"]
+];
+
+function scoreColor(s) {
+  if (s >= 3) return "#22c55e";
+  if (s >= 2) return "#eab308";
+  if (s >= 1) return "#f97316";
+  return "#ef4444";
+}
+
+function pctColor(p) {
+  if (p >= 60) return "#22c55e";
+  if (p >= 35) return "#eab308";
+  return "#ef4444";
+}
+
+function daysUntil(dateStr) {
+  if (!dateStr) return null;
+  const close = new Date(dateStr + "T00:00:00");
+  const now = new Date();
+  return Math.ceil((close - now) / (1000 * 60 * 60 * 24));
+}
+
+function closeTag(dateStr) {
+  const d = daysUntil(dateStr);
+  if (d === null) return ['', 'close-ok'];
+  if (d < 0) return [`OVERDUE ${Math.abs(d)}d`, 'close-danger'];
+  if (d < 14) return [`${d}d left`, 'close-warn'];
+  return [`${d}d left`, 'close-ok'];
+}
+
+function riskLevel(scores) {
+  const pct = scorePct(scores);
+  const zeros = Object.values(scores).filter(s => s === 0).length;
+  if (pct < 25 || zeros >= 5) return ['HIGH', 'risk-high'];
+  if (pct < 50 || zeros >= 3) return ['MEDIUM', 'risk-med'];
+  return ['LOW', 'risk-low'];
+}
+
+function scorePct(scores) {
+  const total = Object.values(scores).reduce((a, b) => a + b, 0);
+  return Math.round((total / (Object.keys(scores).length * 3)) * 100);
+}
+
+let activeFilter = 'all';
+
+function render() {
+  const data = PIPELINE_DATA;
+  
+  // Stats
+  const stage1plus = data.deals.filter(d => !d.stage.includes("0:"));
+  const totalValue = stage1plus.reduce((s, d) => s + (d.amount || 0), 0);
+  const avgMeddpicc = stage1plus.length > 0
+    ? Math.round(stage1plus.reduce((s, d) => s + scorePct(d.meddpicc), 0) / stage1plus.length)
+    : 0;
+  
+  document.getElementById('updated').textContent = `Updated ${data.updated}`;
+  document.getElementById('stats').innerHTML = `
+    <div class="stat"><div class="stat-value">${stage1plus.length}</div><div class="stat-label">Active Deals</div></div>
+    <div class="stat"><div class="stat-value">$${totalValue.toLocaleString()}</div><div class="stat-label">Pipeline Value</div></div>
+    <div class="stat"><div class="stat-value">${avgMeddpicc}%</div><div class="stat-label">Avg MEDDPICC</div></div>
+    <div class="stat"><div class="stat-value">${data.deals.length}</div><div class="stat-label">Total Opps</div></div>
+  `;
+  
+  // Filters
+  const stages = [...new Set(data.deals.map(d => d.stage))].sort();
+  let filterHtml = `<button class="filter-btn ${activeFilter === 'all' ? 'active' : ''}" onclick="setFilter('all')">All</button>`;
+  filterHtml += `<button class="filter-btn ${activeFilter === 'stage1+' ? 'active' : ''}" onclick="setFilter('stage1+')">Stage 1+</button>`;
+  stages.forEach(s => {
+    const short = s.split(':')[0].trim();
+    filterHtml += `<button class="filter-btn ${activeFilter === s ? 'active' : ''}" onclick="setFilter('${s}')">Stage ${short}</button>`;
+  });
+  document.getElementById('filters').innerHTML = filterHtml;
+  
+  // Cards
+  let filtered = data.deals;
+  if (activeFilter === 'stage1+') filtered = filtered.filter(d => !d.stage.includes("0:"));
+  else if (activeFilter !== 'all') filtered = filtered.filter(d => d.stage === activeFilter);
+  
+  if (filtered.length === 0) {
+    document.getElementById('cards').innerHTML = '<div class="empty">No deals match this filter</div>';
+    return;
+  }
+  
+  let cardsHtml = '';
+  filtered.forEach((deal, i) => {
+    const pct = scorePct(deal.meddpicc);
+    const [closeText, closeClass] = closeTag(deal.closeDate);
+    const [riskText, riskClass] = riskLevel(deal.meddpicc);
+    const stageColor = STAGE_COLORS[deal.stage] || '#6b7280';
+    
+    let meddHtml = '';
+    MEDDPICC_LABELS.forEach(([key, label]) => {
+      const s = deal.meddpicc[key] || 0;
+      meddHtml += `<div class="meddpicc-item"><div class="meddpicc-dot" style="background:${scoreColor(s)}">${s}</div><div class="meddpicc-label">${label}</div></div>`;
+    });
+    
+    cardsHtml += `
+    <div class="card" id="card-${i}" onclick="toggle(${i})">
+      <div class="card-header">
+        <div class="card-left">
+          <div class="card-name">${deal.account} <span class="expand-icon">▼</span></div>
+          <div class="card-meta">
+            <span class="stage-badge" style="background:${stageColor}">${deal.stage}</span>
+            <span class="card-amount">$${(deal.amount || 0).toLocaleString()}</span>
+            <span class="card-close ${closeClass}">${deal.closeDate} ${closeText ? '· ' + closeText : ''}</span>
+          </div>
+        </div>
+        <div class="card-score">
+          <div class="pct" style="color:${pctColor(pct)}">${pct}%</div>
+          <div class="label">MEDDPICC</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="meddpicc">${meddHtml}</div>
+        <div class="detail-row"><span class="dlabel">Use case: </span><span class="dvalue">${deal.useCase || 'Not set'}</span></div>
+        <div class="detail-row"><span class="dlabel">Tech description: </span><span class="dvalue">${deal.techDesc || 'Not set'}</span></div>
+        <div class="detail-row"><span class="dlabel">Why change: </span><span class="dvalue">${deal.whyChange || 'Not set'}</span></div>
+        <div class="detail-row"><span class="dlabel">Why now: </span><span class="dvalue">${deal.whyNow || 'Not set'}</span></div>
+        <div class="detail-row"><span class="dlabel">Why Telnyx: </span><span class="dvalue">${deal.whyTelnyx || 'Not set'}</span></div>
+        <div class="detail-row"><span class="dlabel">Why not: </span><span class="dvalue">${deal.whyNot || 'Not set'}</span></div>
+        <div class="detail-row"><span class="dlabel">Next step: </span><span class="dvalue">${deal.nextStep || 'None set'}</span></div>
+        <div class="detail-row"><span class="dlabel">Last activity: </span><span class="dvalue">${deal.lastActivity || 'Never'}</span></div>
+        <div class="detail-row"><span class="dlabel">Contacts: </span><span class="dvalue">${deal.contacts && deal.contacts.length > 0 ? deal.contacts.map(c => `${c.name}${c.role ? ' (' + c.role + ')' : ''}`).join(', ') : 'None'}</span></div>
+        <div class="detail-row"><span class="dlabel">Risk: </span><span class="risk-badge ${riskClass}">${riskText}</span></div>
+      </div>
+    </div>`;
+  });
+  
+  document.getElementById('cards').innerHTML = cardsHtml;
+}
+
+function toggle(i) {
+  document.getElementById('card-' + i).classList.toggle('expanded');
+}
+
+function setFilter(f) {
+  activeFilter = f;
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
