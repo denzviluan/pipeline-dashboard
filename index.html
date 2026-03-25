@@ -383,7 +383,7 @@ function render(){
     }
 
     cardsHtml+=`
-    <div class="card" id="card-${i}" onclick="toggle(${i})">`
+    <div class="card" id="card-${i}" onclick="toggle(${i})">
       <div class="card-header">
         <div class="card-left">
           <div class="card-name">${deal.account} <span class="activity-dot" style="background:${actColor}" title="Last activity: ${actDays!==null?actDays+'d ago':'Never'}"></span> <span class="expand-icon">▼</span></div>
