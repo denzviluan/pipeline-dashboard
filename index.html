@@ -12,15 +12,56 @@ body { background:#0a0a12; color:#e2e8f0; font-family:-apple-system,BlinkMacSyst
 .header h1 { font-size:22px; font-weight:800; }
 .header .updated { font-size:12px; color:#6b7280; }
 
+/* Section headers */
+.section-header { font-size:16px; font-weight:700; margin:28px 0 14px; padding-bottom:8px; border-bottom:1px solid #2a2a3e; display:flex; align-items:center; gap:8px; }
+.section-header .icon { font-size:18px; }
+
+/* Stats row */
 .stats { display:flex; gap:12px; margin-bottom:24px; flex-wrap:wrap; }
 .stat { background:#1a1a2e; border-radius:10px; padding:16px; flex:1; min-width:100px; border:1px solid #2a2a3e; }
 .stat-value { font-size:22px; font-weight:800; }
 .stat-label { font-size:10px; color:#6b7280; margin-top:4px; text-transform:uppercase; letter-spacing:0.5px; }
 
+/* Next Actions */
+.actions-list { margin-bottom:24px; }
+.action-item { background:#1a1a2e; border-radius:8px; padding:12px 16px; margin-bottom:8px; border:1px solid #2a2a3e; display:flex; justify-content:space-between; align-items:center; }
+.action-item .action-left { flex:1; }
+.action-item .action-account { font-size:14px; font-weight:600; }
+.action-item .action-text { font-size:12px; color:#9ca3af; margin-top:3px; }
+.action-item .action-when { font-size:11px; font-weight:600; padding:3px 8px; border-radius:4px; white-space:nowrap; }
+.when-overdue { background:#7f1d1d; color:#fca5a5; }
+.when-today { background:#1e3a5f; color:#93c5fd; }
+.when-soon { background:#713f12; color:#fde047; }
+.when-later { background:#1a1a2e; color:#6b7280; border:1px solid #2a2a3e; }
+
+/* Activity tracker */
+.activity-bar { display:flex; gap:4px; margin-bottom:24px; flex-wrap:wrap; }
+.activity-deal { background:#1a1a2e; border-radius:8px; padding:12px 16px; flex:1; min-width:120px; border:1px solid #2a2a3e; text-align:center; }
+.activity-deal .act-name { font-size:12px; font-weight:600; margin-bottom:6px; }
+.activity-deal .act-days { font-size:20px; font-weight:800; }
+.activity-deal .act-label { font-size:9px; color:#6b7280; margin-top:2px; }
+
+/* Deal velocity */
+.velocity-bar { margin-bottom:24px; }
+.velocity-item { background:#1a1a2e; border-radius:8px; padding:12px 16px; margin-bottom:8px; border:1px solid #2a2a3e; }
+.velocity-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+.velocity-name { font-size:13px; font-weight:600; }
+.velocity-days { font-size:13px; font-weight:700; }
+.velocity-track { height:6px; background:#2a2a3e; border-radius:3px; overflow:hidden; }
+.velocity-fill { height:100%; border-radius:3px; transition:width 0.3s; }
+
+/* Stale accounts */
+.stale-list { margin-bottom:24px; }
+.stale-item { background:#1a1a2e; border-radius:8px; padding:12px 16px; margin-bottom:6px; border:1px solid #2a2a3e; display:flex; justify-content:space-between; align-items:center; }
+.stale-item .stale-name { font-size:13px; font-weight:600; }
+.stale-item .stale-days { font-size:12px; font-weight:700; color:#ef4444; }
+
+/* Filters */
 .filters { display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap; }
 .filter-btn { background:#1a1a2e; border:1px solid #2a2a3e; color:#9ca3af; padding:6px 14px; border-radius:6px; font-size:12px; cursor:pointer; transition:all 0.2s; }
 .filter-btn:hover, .filter-btn.active { background:#2a2a3e; color:#e2e8f0; border-color:#4a4a6e; }
 
+/* Deal cards */
 .card { background:#1a1a2e; border-radius:12px; margin-bottom:14px; border:1px solid #2a2a3e; overflow:hidden; transition:all 0.2s; cursor:pointer; }
 .card:hover { border-color:#3a3a5e; }
 .card-header { padding:18px 20px; display:flex; justify-content:space-between; align-items:center; }
@@ -33,32 +74,28 @@ body { background:#0a0a12; color:#e2e8f0; font-family:-apple-system,BlinkMacSyst
 .close-ok { color:#6b7280; }
 .close-warn { color:#f97316; font-weight:600; }
 .close-danger { color:#ef4444; font-weight:600; }
-
 .card-score { text-align:center; min-width:60px; }
 .card-score .pct { font-size:26px; font-weight:800; }
 .card-score .label { font-size:9px; color:#6b7280; margin-top:2px; }
-
 .card-body { display:none; padding:0 20px 18px; }
 .card.expanded .card-body { display:block; }
-
 .meddpicc { display:flex; justify-content:center; gap:6px; padding:14px 0; margin-bottom:14px; border-top:1px solid #2a2a3e; border-bottom:1px solid #2a2a3e; flex-wrap:wrap; }
 .meddpicc-item { text-align:center; }
 .meddpicc-dot { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:13px; margin:0 auto; }
 .meddpicc-label { font-size:8px; color:#6b7280; margin-top:3px; white-space:nowrap; }
-
 .detail-row { font-size:13px; line-height:1.8; }
 .detail-row .dlabel { color:#6b7280; }
 .detail-row .dvalue { color:#cbd5e1; }
-
 .risk-badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; }
 .risk-high { background:#7f1d1d; color:#fca5a5; }
 .risk-med { background:#713f12; color:#fde047; }
 .risk-low { background:#14532d; color:#86efac; }
-
 .expand-icon { font-size:14px; color:#6b7280; margin-left:12px; transition:transform 0.2s; }
 .card.expanded .expand-icon { transform:rotate(180deg); }
-
 .empty { text-align:center; padding:40px; color:#6b7280; }
+
+/* Activity dot on card */
+.activity-dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-left:8px; vertical-align:middle; }
 
 @media(max-width:600px) {
   body { padding:12px; }
@@ -67,6 +104,8 @@ body { background:#0a0a12; color:#e2e8f0; font-family:-apple-system,BlinkMacSyst
   .card-header { padding:14px; }
   .card-name { font-size:15px; }
   .meddpicc-dot { width:26px; height:26px; font-size:11px; }
+  .activity-deal { min-width:80px; padding:10px; }
+  .activity-deal .act-days { font-size:16px; }
 }
 </style>
 </head>
@@ -80,6 +119,19 @@ body { background:#0a0a12; color:#e2e8f0; font-family:-apple-system,BlinkMacSyst
 </div>
 
 <div class="stats" id="stats"></div>
+
+<div class="section-header"><span class="icon">⚡</span> Next Actions</div>
+<div class="actions-list" id="actions"></div>
+
+<div class="section-header"><span class="icon">📡</span> Activity Tracker</div>
+<div class="activity-bar" id="activity"></div>
+
+<div class="section-header"><span class="icon">🏎️</span> Deal Velocity</div>
+<div class="velocity-bar" id="velocity"></div>
+
+<div id="stale-section"></div>
+
+<div class="section-header"><span class="icon">📋</span> Deals</div>
 <div class="filters" id="filters"></div>
 <div id="cards"></div>
 
@@ -89,123 +141,210 @@ const PIPELINE_DATA = {"updated": "25 Mar 2026 08:06 PM AEST", "deals": [{"id": 
 // ===== END DATA =====
 
 const STAGE_COLORS = {
-  "0: AE Qualification": "#6b7280",
-  "0: Prospecting": "#6b7280",
-  "1: Discovery & Scoping": "#3b82f6",
-  "2: Proposal and Quoting": "#8b5cf6",
-  "3: Negotiation": "#22c55e",
-  "4: Closed Pending": "#14b8a6"
+  "0: AE Qualification":"#6b7280","0: Prospecting":"#6b7280",
+  "1: Discovery & Scoping":"#3b82f6","2: Proposal and Quoting":"#8b5cf6",
+  "3: Negotiation":"#22c55e","4: Closed Pending":"#14b8a6"
 };
+const MEDDPICC_LABELS = [["M","Metrics"],["E","Econ Buyer"],["D1","Dec Criteria"],["D2","Dec Process"],["P","Paper"],["I","Pain"],["C","Champion"],["Co","Competition"]];
 
-const MEDDPICC_LABELS = [
-  ["M", "Metrics"], ["E", "Econ Buyer"], ["D1", "Dec Criteria"],
-  ["D2", "Dec Process"], ["P", "Paper"], ["I", "Pain"],
-  ["C", "Champion"], ["Co", "Competition"]
-];
+function scoreColor(s){ return s>=3?"#22c55e":s>=2?"#eab308":s>=1?"#f97316":"#ef4444"; }
+function pctColor(p){ return p>=60?"#22c55e":p>=35?"#eab308":"#ef4444"; }
+function scorePct(sc){ const t=Object.values(sc).reduce((a,b)=>a+b,0); return Math.round((t/(Object.keys(sc).length*3))*100); }
 
-function scoreColor(s) {
-  if (s >= 3) return "#22c55e";
-  if (s >= 2) return "#eab308";
-  if (s >= 1) return "#f97316";
+function daysSince(dateStr){
+  if(!dateStr) return null;
+  const d=new Date(dateStr+"T00:00:00");
+  const now=new Date();
+  return Math.floor((now-d)/(1000*60*60*24));
+}
+function daysUntil(dateStr){
+  if(!dateStr) return null;
+  const d=new Date(dateStr+"T00:00:00");
+  return Math.ceil((d-new Date())/(1000*60*60*24));
+}
+function daysSinceCreated(isoStr){
+  if(!isoStr) return null;
+  const d=new Date(isoStr);
+  return Math.floor((new Date()-d)/(1000*60*60*24));
+}
+
+function activityColor(days){
+  if(days===null) return "#ef4444";
+  if(days<=3) return "#22c55e";
+  if(days<=7) return "#eab308";
   return "#ef4444";
 }
 
-function pctColor(p) {
-  if (p >= 60) return "#22c55e";
-  if (p >= 35) return "#eab308";
-  return "#ef4444";
+function closeTag(dateStr){
+  const d=daysUntil(dateStr);
+  if(d===null) return ['','close-ok'];
+  if(d<0) return [`OVERDUE ${Math.abs(d)}d`,'close-danger'];
+  if(d<14) return [`${d}d left`,'close-warn'];
+  return [`${d}d left`,'close-ok'];
 }
 
-function daysUntil(dateStr) {
-  if (!dateStr) return null;
-  const close = new Date(dateStr + "T00:00:00");
-  const now = new Date();
-  return Math.ceil((close - now) / (1000 * 60 * 60 * 24));
+function riskLevel(scores){
+  const pct=scorePct(scores);
+  const zeros=Object.values(scores).filter(s=>s===0).length;
+  if(pct<25||zeros>=5) return ['HIGH','risk-high'];
+  if(pct<50||zeros>=3) return ['MEDIUM','risk-med'];
+  return ['LOW','risk-low'];
 }
 
-function closeTag(dateStr) {
-  const d = daysUntil(dateStr);
-  if (d === null) return ['', 'close-ok'];
-  if (d < 0) return [`OVERDUE ${Math.abs(d)}d`, 'close-danger'];
-  if (d < 14) return [`${d}d left`, 'close-warn'];
-  return [`${d}d left`, 'close-ok'];
-}
+let activeFilter='all';
 
-function riskLevel(scores) {
-  const pct = scorePct(scores);
-  const zeros = Object.values(scores).filter(s => s === 0).length;
-  if (pct < 25 || zeros >= 5) return ['HIGH', 'risk-high'];
-  if (pct < 50 || zeros >= 3) return ['MEDIUM', 'risk-med'];
-  return ['LOW', 'risk-low'];
-}
+function render(){
+  const data=PIPELINE_DATA;
+  const allDeals=data.deals;
+  const stage1plus=allDeals.filter(d=>!d.stage.includes("0:"));
+  const totalValue=stage1plus.reduce((s,d)=>s+(d.amount||0),0);
+  const avgMeddpicc=stage1plus.length>0?Math.round(stage1plus.reduce((s,d)=>s+scorePct(d.meddpicc),0)/stage1plus.length):0;
 
-function scorePct(scores) {
-  const total = Object.values(scores).reduce((a, b) => a + b, 0);
-  return Math.round((total / (Object.keys(scores).length * 3)) * 100);
-}
+  document.getElementById('updated').textContent=`Updated ${data.updated}`;
 
-let activeFilter = 'all';
-
-function render() {
-  const data = PIPELINE_DATA;
-  
   // Stats
-  const stage1plus = data.deals.filter(d => !d.stage.includes("0:"));
-  const totalValue = stage1plus.reduce((s, d) => s + (d.amount || 0), 0);
-  const avgMeddpicc = stage1plus.length > 0
-    ? Math.round(stage1plus.reduce((s, d) => s + scorePct(d.meddpicc), 0) / stage1plus.length)
-    : 0;
-  
-  document.getElementById('updated').textContent = `Updated ${data.updated}`;
-  document.getElementById('stats').innerHTML = `
+  document.getElementById('stats').innerHTML=`
     <div class="stat"><div class="stat-value">${stage1plus.length}</div><div class="stat-label">Active Deals</div></div>
     <div class="stat"><div class="stat-value">$${totalValue.toLocaleString()}</div><div class="stat-label">Pipeline Value</div></div>
     <div class="stat"><div class="stat-value">${avgMeddpicc}%</div><div class="stat-label">Avg MEDDPICC</div></div>
-    <div class="stat"><div class="stat-value">${data.deals.length}</div><div class="stat-label">Total Opps</div></div>
+    <div class="stat"><div class="stat-value">${allDeals.length}</div><div class="stat-label">Total Opps</div></div>
   `;
-  
-  // Filters
-  const stages = [...new Set(data.deals.map(d => d.stage))].sort();
-  let filterHtml = `<button class="filter-btn ${activeFilter === 'all' ? 'active' : ''}" onclick="setFilter('all')">All</button>`;
-  filterHtml += `<button class="filter-btn ${activeFilter === 'stage1+' ? 'active' : ''}" onclick="setFilter('stage1+')">Stage 1+</button>`;
-  stages.forEach(s => {
-    const short = s.split(':')[0].trim();
-    filterHtml += `<button class="filter-btn ${activeFilter === s ? 'active' : ''}" onclick="setFilter('${s}')">Stage ${short}</button>`;
+
+  // Next Actions - deals with next steps, sorted by urgency
+  const withSteps=allDeals.filter(d=>d.nextStep&&d.nextStep.trim());
+  withSteps.sort((a,b)=>{
+    const da=daysUntil(a.closeDate)||999;
+    const db=daysUntil(b.closeDate)||999;
+    return da-db;
   });
-  document.getElementById('filters').innerHTML = filterHtml;
-  
-  // Cards
-  let filtered = data.deals;
-  if (activeFilter === 'stage1+') filtered = filtered.filter(d => !d.stage.includes("0:"));
-  else if (activeFilter !== 'all') filtered = filtered.filter(d => d.stage === activeFilter);
-  
-  if (filtered.length === 0) {
-    document.getElementById('cards').innerHTML = '<div class="empty">No deals match this filter</div>';
+  let actionsHtml='';
+  if(withSteps.length===0){
+    actionsHtml='<div class="empty" style="padding:16px;font-size:13px">No next steps set on any deals</div>';
+  } else {
+    withSteps.forEach(d=>{
+      const days=daysUntil(d.closeDate);
+      let whenClass='when-later', whenText='';
+      if(days!==null){
+        if(days<0){ whenClass='when-overdue'; whenText=`${Math.abs(days)}d overdue`; }
+        else if(days===0){ whenClass='when-today'; whenText='Today'; }
+        else if(days<=7){ whenClass='when-soon'; whenText=`${days}d`; }
+        else { whenText=`${days}d`; }
+      }
+      actionsHtml+=`
+      <div class="action-item">
+        <div class="action-left">
+          <div class="action-account">${d.account}</div>
+          <div class="action-text">${d.nextStep}</div>
+        </div>
+        <div class="action-when ${whenClass}">${whenText}</div>
+      </div>`;
+    });
+  }
+  document.getElementById('actions').innerHTML=actionsHtml;
+
+  // Activity Tracker
+  let actHtml='';
+  allDeals.forEach(d=>{
+    const days=daysSince(d.lastActivity);
+    const color=activityColor(days);
+    const displayDays=days!==null?days:'?';
+    const label=days!==null?(days===0?'Today':days===1?'Yesterday':`${days} days ago`):'Never';
+    actHtml+=`
+    <div class="activity-deal" style="border-color:${color}30">
+      <div class="act-name">${d.account}</div>
+      <div class="act-days" style="color:${color}">${displayDays}</div>
+      <div class="act-label">${label}</div>
+    </div>`;
+  });
+  document.getElementById('activity').innerHTML=actHtml;
+
+  // Deal Velocity - days since created, with progress bar
+  let velHtml='';
+  const maxDays=Math.max(...allDeals.map(d=>daysSinceCreated(d.created)||0),1);
+  allDeals.filter(d=>!d.stage.includes("0:")).forEach(d=>{
+    const days=daysSinceCreated(d.created)||0;
+    const pct=Math.min(Math.round((days/60)*100),100); // 60 days = full bar
+    const color=days>30?"#ef4444":days>14?"#eab308":"#22c55e";
+    const stage=d.stage.split(':')[0].trim();
+    velHtml+=`
+    <div class="velocity-item">
+      <div class="velocity-top">
+        <div class="velocity-name">${d.account} <span style="color:#6b7280;font-weight:400;font-size:11px">Stage ${stage}</span></div>
+        <div class="velocity-days" style="color:${color}">${days}d</div>
+      </div>
+      <div class="velocity-track">
+        <div class="velocity-fill" style="width:${pct}%;background:${color}"></div>
+      </div>
+    </div>`;
+  });
+  document.getElementById('velocity').innerHTML=velHtml;
+
+  // Stale Accounts (30+ days no activity)
+  const stale=allDeals.filter(d=>{
+    const days=daysSince(d.lastActivity);
+    return days===null||days>=30;
+  });
+  if(stale.length>0){
+    let staleHtml=`<div class="section-header"><span class="icon">⚠️</span> Accounts Not Touched in 30+ Days</div><div class="stale-list">`;
+    stale.forEach(d=>{
+      const days=daysSince(d.lastActivity);
+      const text=days!==null?`${days} days ago`:'Never';
+      staleHtml+=`
+      <div class="stale-item">
+        <div class="stale-name">${d.account}</div>
+        <div class="stale-days">${text}</div>
+      </div>`;
+    });
+    staleHtml+='</div>';
+    document.getElementById('stale-section').innerHTML=staleHtml;
+  } else {
+    document.getElementById('stale-section').innerHTML='';
+  }
+
+  // Filters
+  const stages=[...new Set(allDeals.map(d=>d.stage))].sort();
+  let filterHtml=`<button class="filter-btn ${activeFilter==='all'?'active':''}" onclick="setFilter('all')">All</button>`;
+  filterHtml+=`<button class="filter-btn ${activeFilter==='stage1+'?'active':''}" onclick="setFilter('stage1+')">Stage 1+</button>`;
+  stages.forEach(s=>{
+    const short=s.split(':')[0].trim();
+    filterHtml+=`<button class="filter-btn ${activeFilter===s?'active':''}" onclick="setFilter('${s}')">Stage ${short}</button>`;
+  });
+  document.getElementById('filters').innerHTML=filterHtml;
+
+  // Deal Cards
+  let filtered=allDeals;
+  if(activeFilter==='stage1+') filtered=filtered.filter(d=>!d.stage.includes("0:"));
+  else if(activeFilter!=='all') filtered=filtered.filter(d=>d.stage===activeFilter);
+
+  if(filtered.length===0){
+    document.getElementById('cards').innerHTML='<div class="empty">No deals match this filter</div>';
     return;
   }
-  
-  let cardsHtml = '';
-  filtered.forEach((deal, i) => {
-    const pct = scorePct(deal.meddpicc);
-    const [closeText, closeClass] = closeTag(deal.closeDate);
-    const [riskText, riskClass] = riskLevel(deal.meddpicc);
-    const stageColor = STAGE_COLORS[deal.stage] || '#6b7280';
-    
-    let meddHtml = '';
-    MEDDPICC_LABELS.forEach(([key, label]) => {
-      const s = deal.meddpicc[key] || 0;
-      meddHtml += `<div class="meddpicc-item"><div class="meddpicc-dot" style="background:${scoreColor(s)}">${s}</div><div class="meddpicc-label">${label}</div></div>`;
+
+  let cardsHtml='';
+  filtered.forEach((deal,i)=>{
+    const pct=scorePct(deal.meddpicc);
+    const [closeText,closeClass]=closeTag(deal.closeDate);
+    const [riskText,riskClass]=riskLevel(deal.meddpicc);
+    const stageColor=STAGE_COLORS[deal.stage]||'#6b7280';
+    const actDays=daysSince(deal.lastActivity);
+    const actColor=activityColor(actDays);
+
+    let meddHtml='';
+    MEDDPICC_LABELS.forEach(([key,label])=>{
+      const s=deal.meddpicc[key]||0;
+      meddHtml+=`<div class="meddpicc-item"><div class="meddpicc-dot" style="background:${scoreColor(s)}">${s}</div><div class="meddpicc-label">${label}</div></div>`;
     });
-    
-    cardsHtml += `
+
+    cardsHtml+=`
     <div class="card" id="card-${i}" onclick="toggle(${i})">
       <div class="card-header">
         <div class="card-left">
-          <div class="card-name">${deal.account} <span class="expand-icon">▼</span></div>
+          <div class="card-name">${deal.account} <span class="activity-dot" style="background:${actColor}" title="Last activity: ${actDays!==null?actDays+'d ago':'Never'}"></span> <span class="expand-icon">▼</span></div>
           <div class="card-meta">
             <span class="stage-badge" style="background:${stageColor}">${deal.stage}</span>
-            <span class="card-amount">$${(deal.amount || 0).toLocaleString()}</span>
-            <span class="card-close ${closeClass}">${deal.closeDate} ${closeText ? '· ' + closeText : ''}</span>
+            <span class="card-amount">$${(deal.amount||0).toLocaleString()}</span>
+            <span class="card-close ${closeClass}">${deal.closeDate} ${closeText?'· '+closeText:''}</span>
           </div>
         </div>
         <div class="card-score">
@@ -215,32 +354,27 @@ function render() {
       </div>
       <div class="card-body">
         <div class="meddpicc">${meddHtml}</div>
-        <div class="detail-row"><span class="dlabel">Use case: </span><span class="dvalue">${deal.useCase || 'Not set'}</span></div>
-        <div class="detail-row"><span class="dlabel">Tech description: </span><span class="dvalue">${deal.techDesc || 'Not set'}</span></div>
-        <div class="detail-row"><span class="dlabel">Why change: </span><span class="dvalue">${deal.whyChange || 'Not set'}</span></div>
-        <div class="detail-row"><span class="dlabel">Why now: </span><span class="dvalue">${deal.whyNow || 'Not set'}</span></div>
-        <div class="detail-row"><span class="dlabel">Why Telnyx: </span><span class="dvalue">${deal.whyTelnyx || 'Not set'}</span></div>
-        <div class="detail-row"><span class="dlabel">Why not: </span><span class="dvalue">${deal.whyNot || 'Not set'}</span></div>
-        <div class="detail-row"><span class="dlabel">Next step: </span><span class="dvalue">${deal.nextStep || 'None set'}</span></div>
-        <div class="detail-row"><span class="dlabel">Last activity: </span><span class="dvalue">${deal.lastActivity || 'Never'}</span></div>
-        <div class="detail-row"><span class="dlabel">Contacts: </span><span class="dvalue">${deal.contacts && deal.contacts.length > 0 ? deal.contacts.map(c => `${c.name}${c.role ? ' (' + c.role + ')' : ''}`).join(', ') : 'None'}</span></div>
+        <div class="detail-row"><span class="dlabel">Use case: </span><span class="dvalue">${deal.useCase||'Not set'}</span></div>
+        <div class="detail-row"><span class="dlabel">Tech description: </span><span class="dvalue">${deal.techDesc||'Not set'}</span></div>
+        <div class="detail-row"><span class="dlabel">Why change: </span><span class="dvalue">${deal.whyChange||'Not set'}</span></div>
+        <div class="detail-row"><span class="dlabel">Why now: </span><span class="dvalue">${deal.whyNow||'Not set'}</span></div>
+        <div class="detail-row"><span class="dlabel">Why Telnyx: </span><span class="dvalue">${deal.whyTelnyx||'Not set'}</span></div>
+        <div class="detail-row"><span class="dlabel">Why not: </span><span class="dvalue">${deal.whyNot||'Not set'}</span></div>
+        <div class="detail-row"><span class="dlabel">Next step: </span><span class="dvalue">${deal.nextStep||'None set'}</span></div>
+        <div class="detail-row"><span class="dlabel">Last activity: </span><span class="dvalue">${deal.lastActivity||'Never'}</span></div>
+        <div class="detail-row"><span class="dlabel">Created: </span><span class="dvalue">${deal.created?new Date(deal.created).toLocaleDateString('en-AU'):'Unknown'}</span></div>
+        <div class="detail-row"><span class="dlabel">Age: </span><span class="dvalue">${daysSinceCreated(deal.created)||'?'} days</span></div>
+        <div class="detail-row"><span class="dlabel">Contacts: </span><span class="dvalue">${deal.contacts&&deal.contacts.length>0?deal.contacts.map(c=>`${c.name}${c.role?' ('+c.role+')':''}`).join(', '):'None'}</span></div>
         <div class="detail-row"><span class="dlabel">Risk: </span><span class="risk-badge ${riskClass}">${riskText}</span></div>
       </div>
     </div>`;
   });
-  
-  document.getElementById('cards').innerHTML = cardsHtml;
+
+  document.getElementById('cards').innerHTML=cardsHtml;
 }
 
-function toggle(i) {
-  document.getElementById('card-' + i).classList.toggle('expanded');
-}
-
-function setFilter(f) {
-  activeFilter = f;
-  render();
-}
-
+function toggle(i){ document.getElementById('card-'+i).classList.toggle('expanded'); }
+function setFilter(f){ activeFilter=f; render(); }
 render();
 </script>
 </body>
